@@ -24,6 +24,12 @@ class WebRadarStringsInfo(Enum):
     DATE = "date"
 
 
+class WebRadarStringsInfoOnDuplicate(Enum):
+    PAGE_RANK = "page_rank"
+    SEO_KEYWORDS = "seo_keywords"
+    DATE = "date"
+
+
 class WebRadarStringsError(Enum):
     WEB_URL = "web_url"
     ERROR_SHORT = "error_short"
