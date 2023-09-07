@@ -1,6 +1,6 @@
 from utils.db.connector import MySQLConnector
 from utils.db.query import QueryBuilder
-from utils.db.settings import DB_CONFIG
+from utils.radar.settings import DB_CONFIG
 
 
 class QueryManager:

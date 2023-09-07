@@ -19,3 +19,5 @@ def execute_radar():
     for search_string in web_radar_strings_manager.read_all():
         for search_engine in web_radar_search_engine_manager.read_all():
             initiate_data_extraction(search_string, search_engine, grouped_seo_elements)
+            break
+        break

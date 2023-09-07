@@ -11,3 +11,6 @@ DB_CONFIG = {
     "password": os.environ.get("DATABASE_PASSWORD"),
     "database": os.environ.get("DATABASE_NAME")
 }
+
+# Selenium driver path
+DRIVER_PATH = ""
