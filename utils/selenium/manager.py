@@ -11,7 +11,7 @@ from utils.radar.exceptions import UnableToRenderPage
 
 
 class WebDriverManager:
-    def __init__(self, driver_path):
+    def __init__(self, driver_path=None):
         self.options = Options()
         self.dc = DesiredCapabilities().CHROME
         self.dc["pageLoadStrategy"] = "normal"
