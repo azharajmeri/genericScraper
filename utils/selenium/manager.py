@@ -35,13 +35,13 @@ class WebDriverManager:
         self.options.add_argument("--disable-extensions")
         self.options.add_argument("--remote-debugging-port=9515")
         if not driver_path:
-            self.service = Service(ChromeDriverManager().install(), options=self.options, desired_capabilities=self.dc)
+            self.service = Service(ChromeDriverManager().install())
         else:
             self.service = Service(executable_path=driver_path)
         self.driver = None
 
     def start_driver(self):
-        self.driver = webdriver.Chrome(service=self.service)
+        self.driver = webdriver.Chrome(service=self.service, options=self.options, desired_capabilities=self.dc)
 
     def refresh_driver(self):
         if self.driver:
