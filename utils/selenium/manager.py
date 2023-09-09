@@ -85,7 +85,7 @@ class WebDriverManager:
 
     def find_element_with_wait(self, locator):
         try:
-            return WebDriverWait(self.driver, 5).until(
+            return WebDriverWait(self.driver, 30).until(
                 lambda x: x.find_element(
                     *locator
                 )
