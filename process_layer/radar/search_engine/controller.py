@@ -1,9 +1,7 @@
-import time
-
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
-from utils.enums.radar_table_fields import WebRadarWebsites, WebRadarStings, WebRadarScrapElements
+from utils.enums.radar_table_fields import WebRadarWebsites, WebRadarStings
 from utils.selenium.manager import WebDriverManager
 
 
@@ -17,11 +15,13 @@ class EngineController:
         self.scrape_count = scrape_count
         self.links_to_scrape = []
         self.last_scrape_links = []
+        self.results = []
 
     def initiate(self):
         self.driver_manager.navigate_to(self.search_engine_details.get(WebRadarWebsites.WEBSITE_URL.value))
         self.initiate_link_scraping()
         self.driver_manager.close_driver()
+        return self.results
 
     def initiate_link_scraping(self):
         self.input_search_string()
@@ -40,10 +40,6 @@ class EngineController:
             self.links_to_scrape.extend(self.last_scrape_links)
             if not self.go_to_next_page():
                 break
-
-        # Todo: Remove below comments
-        print(self.links_to_scrape)
-        print("LENGTH:", len(self.links_to_scrape))
 
     def extract_with_dynamic_content(self):
         height_change = True
@@ -77,7 +73,21 @@ class EngineController:
         return len(self.get_links())
 
     def scrape_pages(self):
-        for page in self.links_to_scrape:
+        for rank, page in enumerate(self.links_to_scrape[:2]):
             self.driver_manager.open_new_tab(page)
-            # Todo: Continue from here, scrape SEO keywords from page
+            self.extract_seo_keywords(rank)
             self.driver_manager.close_current_tab()
+
+    def extract_seo_keywords(self, rank):
+        self.results.append(
+            {
+                "keywords": {element: self.extract_keyword(element_xpath_list) for element, element_xpath_list in self.seo_elements.items()},
+                "rank": rank,
+                "page_url": self.driver_manager.driver.current_url
+            }
+        )
+
+    def extract_keyword(self, element_xpath_list):
+        for xpath in element_xpath_list:
+            if keyword := self.driver_manager.find_element_with_wait((By.XPATH, xpath)):
+                return keyword.text

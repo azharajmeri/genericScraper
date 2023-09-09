@@ -41,7 +41,6 @@ class QueryManager:
         # Validate data against the enum
         self.validate_data(data)
         query = self.query_builder.build_insert_on_duplicate_key_update_query(data)
-        print(query)
         with self._connect_to_db() as conn:
             cursor = conn.cursor()
             cursor.execute(query, data)
