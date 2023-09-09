@@ -38,6 +38,11 @@ class WebRadarStringsError(Enum):
     ERROR_TIMESTAMP = "error_timestamp"
 
 
+class WebRadarStringsErrorOnDuplicate(Enum):
+    ERROR_LONG = "error_long"
+    ERROR_TIMESTAMP = "error_timestamp"
+
+
 class WebRadarScrapElements(Enum):
     SCRAP_ELEMENT_NAME = "scrap_element_name"
     SCRAP_ELEMENT_XPATH = "scrap_element_xpath"
