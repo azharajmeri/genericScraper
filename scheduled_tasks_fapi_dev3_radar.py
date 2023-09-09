@@ -33,7 +33,7 @@ def radar_scraping_flow():
 
 
 # Change the GITHUB BLOCK name below
-github_block = GitHub.load("prefec-repo")
+github_block = GitHub.load("temp-radar")
 
 deployments = [
     Deployment.build_from_flow(
