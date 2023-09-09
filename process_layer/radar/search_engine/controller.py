@@ -90,7 +90,7 @@ class EngineController:
         return len(self.get_links())
 
     def scrape_pages(self):
-        for rank, page in enumerate(self.links_to_scrape[:2]):
+        for rank, page in enumerate(self.links_to_scrape):
             try:
                 self.driver_manager.open_new_tab(page, raise_exception=True)
             except UnableToRenderPage:
