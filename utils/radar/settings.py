@@ -13,4 +13,6 @@ DB_CONFIG = {
 }
 
 # Selenium driver path
-DRIVER_PATH = ""
+DRIVER_PATH = os.environ.get("DRIVER_PATH")
+
+RADAR_SCRAPE_COUNT = int(os.environ.get("RADAR_SCRAPE_COUNT", 40))

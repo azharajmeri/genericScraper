@@ -9,7 +9,7 @@ def install_required_package():
     subprocess.run(["pip", "install", "-r", "requirements_fapi_dev3_radar.txt"])
 
 
-@flow
+@flow(log_prints=True)
 def radar_scraping_flow():
     install_required_package()
     from process_layer.radar.execute import execute_radar

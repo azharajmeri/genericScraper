@@ -12,6 +12,13 @@ from utils.radar.exceptions import UnableToRenderPage
 
 class WebDriverManager:
     def __init__(self, driver_path=None):
+        self.service = Service(executable_path=driver_path) if driver_path else Service(ChromeDriverManager().install())
+        self.driver = None
+        self.options = None
+        self.dc = None
+        self.initiate_options()
+
+    def initiate_options(self):
         self.options = Options()
         self.dc = DesiredCapabilities().CHROME
         self.dc["pageLoadStrategy"] = "normal"
@@ -34,14 +41,9 @@ class WebDriverManager:
         self.options.add_argument("--allow-running-insecure-content")
         self.options.add_argument("--disable-extensions")
         self.options.add_argument("--remote-debugging-port=9515")
-        if not driver_path:
-            self.service = Service(ChromeDriverManager().install())
-        else:
-            self.service = Service(executable_path=driver_path)
-        self.driver = None
 
     def start_driver(self):
-        self.driver = webdriver.Chrome(service=self.service, options=self.options, desired_capabilities=self.dc)
+        self.driver = webdriver.Chrome(service=self.service, options=self.options)
 
     def refresh_driver(self):
         if self.driver:
@@ -71,10 +73,14 @@ class WebDriverManager:
             self.navigate_to(url, raise_exception=raise_exception)
 
     def switch_to_new_window(self):
-        self.driver.switch_to.window(self.driver.window_handles[-1])
+        if self.driver:
+            self.driver.switch_to.window(self.driver.window_handles[-1])
+        else:
+            self.start_driver()
 
     def close_current_tab(self):
-        self.driver.close()
+        if self.driver:
+            self.driver.close()
         self.switch_to_new_window()
 
     def find_element(self, locator):
@@ -85,7 +91,7 @@ class WebDriverManager:
 
     def find_element_with_wait(self, locator):
         try:
-            return WebDriverWait(self.driver, 30).until(
+            return WebDriverWait(self.driver, 5).until(
                 lambda x: x.find_element(
                     *locator
                 )
