@@ -53,6 +53,7 @@ class WebDriverManager:
     def close_driver(self):
         if self.driver:
             self.driver.quit()
+        self.driver = None
 
     def navigate_to(self, url, raise_exception=False):
         if not self.driver:

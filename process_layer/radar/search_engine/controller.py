@@ -30,6 +30,7 @@ class EngineController:
     def initiate_link_scraping(self):
         self.input_search_string()
         self.extract_all_links()
+        self.driver_manager.close_driver()
         self.scrape_pages()
 
     def input_search_string(self):
@@ -107,22 +108,24 @@ class EngineController:
         return len(self.get_links())
 
     def scrape_pages(self):
+        self.driver_manager.start_driver()
         print("STARTING LINK'S META DATA EXTRACTION")
         for rank, page in enumerate(self.links_to_scrape[:self.scrape_count], start=1):
             print(f"DRIVER RENDERING PAGE: {page} - RANK: {rank}")
             try:
-                self.driver_manager.open_new_tab(page, raise_exception=True)
+                self.driver_manager.navigate_to(page, raise_exception=True)
             except UnableToRenderPage:
                 DatabaseController(self.search_string_details, self.search_engine_details).store_error("Search Engine links failed to render, taking too long to get rendered.",
                     f"Unable to render page for URL {page}")
+                self.driver_manager.close_driver()
                 continue
             except Exception as e:
                 DatabaseController(self.search_string_details, self.search_engine_details).store_error(
                     "Search Engine links failed to render.",
                     f"Unable to render page for URL {page}")
+                self.driver_manager.close_driver()
                 continue
             self.extract_seo_keywords(rank, page)
-            self.driver_manager.close_current_tab()
 
     def extract_seo_keywords(self, rank, page):
         print(f"EXTRACTING KEYWORDS FROM: {page} - RANK: {rank}")
