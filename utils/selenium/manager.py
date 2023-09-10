@@ -79,9 +79,12 @@ class WebDriverManager:
             self.start_driver()
 
     def close_current_tab(self):
-        if self.driver:
-            self.driver.close()
-        self.switch_to_new_window()
+        try:
+            if self.driver:
+                self.driver.close()
+            self.switch_to_new_window()
+        except Exception:
+            self.switch_to_new_window()
 
     def find_element(self, locator):
         return self.driver.find_element(*locator)
@@ -89,9 +92,9 @@ class WebDriverManager:
     def find_elements(self, locator):
         return self.driver.find_elements(*locator)
 
-    def find_element_with_wait(self, locator):
+    def find_element_with_wait(self, locator, wait=5):
         try:
-            return WebDriverWait(self.driver, 5).until(
+            return WebDriverWait(self.driver, wait).until(
                 lambda x: x.find_element(
                     *locator
                 )

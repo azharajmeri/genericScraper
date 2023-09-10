@@ -34,7 +34,7 @@ class EngineController:
 
     def input_search_string(self):
         print(f"INPUTTING SEARCH STRING: {self.search_string_details.get(WebRadarStings.SEARCH_STRING.value)}")
-        if not (search_box := self.driver_manager.find_element_with_wait((By.XPATH, self.search_engine_details.get(WebRadarWebsites.SEARCHBAR_XPATH.value)))):
+        if not (search_box := self.driver_manager.find_element_with_wait((By.XPATH, self.search_engine_details.get(WebRadarWebsites.SEARCHBAR_XPATH.value)), 30)):
             raise UnableToLocateSearchBox
         try:
             search_box.clear()
