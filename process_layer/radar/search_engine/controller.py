@@ -1,3 +1,5 @@
+import time
+
 from selenium.common import ElementNotInteractableException, WebDriverException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
@@ -24,6 +26,7 @@ class EngineController:
     def initiate(self):
         print(f"INITIATED: {self.search_engine_details.get(WebRadarWebsites.WEBSITE_URL.value)} - FOR: {self.search_string_details.get(WebRadarStings.SEARCH_STRING.value)}")
         self.driver_manager.navigate_to(self.search_engine_details.get(WebRadarWebsites.WEBSITE_URL.value), raise_exception=True)
+        time.sleep(30)
         self.initiate_link_scraping()
         self.driver_manager.close_driver()
 
@@ -34,10 +37,14 @@ class EngineController:
         self.scrape_pages()
 
     def input_search_string(self):
+        print("SLEEP FOR 42 SECONDS!")
+        time.sleep(42)
         print(f"INPUTTING SEARCH STRING: {self.search_string_details.get(WebRadarStings.SEARCH_STRING.value)}")
         if not (search_box := self.driver_manager.find_element_with_wait((By.XPATH, self.search_engine_details.get(WebRadarWebsites.SEARCHBAR_XPATH.value)), 30)):
             raise UnableToLocateSearchBox
         try:
+            print("SLEEP FOR 15 SECONDS!")
+            time.sleep(15)
             search_box.clear()
             search_box.send_keys(self.search_string_details.get(WebRadarStings.SEARCH_STRING.value))
             search_box.send_keys(Keys.ENTER)

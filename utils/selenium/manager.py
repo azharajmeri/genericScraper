@@ -1,4 +1,6 @@
 import contextlib
+import time
+
 from selenium import webdriver
 from selenium.common import TimeoutException
 from selenium.webdriver.chrome.service import Service
@@ -119,9 +121,11 @@ class WebDriverManager:
         for _ in range(max_iterations):
             with contextlib.suppress(TimeoutException):
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-                WebDriverWait(self.driver, 1).until(
+                WebDriverWait(self.driver, 10).until(
                     lambda driver: driver.execute_script(SCROLL_COMMAND) > next_height)
             next_height = self.driver.execute_script(SCROLL_COMMAND)
+            print("SLEEP FOR 10 SECONDS IN SCROLLING!")
+            time.sleep(10)
 
         # Check if the page content has actually changed
         final_height = self.driver.execute_script(SCROLL_COMMAND)
