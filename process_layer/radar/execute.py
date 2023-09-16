@@ -24,7 +24,7 @@ def initiate_data_extraction(search_string_details, search_engine_details, seo_e
     print(f"ENDED: {search_engine_details.get(WebRadarWebsites.WEBSITE_URL.value)} - FOR: {search_string_details.get(WebRadarStings.SEARCH_STRING.value)}")
 
 
-@task
+# @task
 def execute_radar():
     print("RADAR PROCESS STARTED")
     grouped_seo_elements = group_elements(web_radar_scrap_elements_manager.read_all())
